@@ -1,5 +1,5 @@
-To generate scenes `python generate_training.py`
+To generate model db from raw videos: `python generate_training.py`
 
-To compute the sample `python take_sample.py`
+To start the processing server: `FLASK_APP=code.py flask run`
 
-To run matching process `python code.py`
+To run the public API: `sudo node server.js`
