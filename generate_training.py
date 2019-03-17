@@ -1,5 +1,4 @@
 import os
-import scenedetect
 import subprocess
 import glob
 import shutil
