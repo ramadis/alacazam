@@ -161,11 +161,9 @@ def run(images,alex_net):
 
 r = None
 if not os.path.exists('model.cnn.npy'):
-  print("save")
   r = run(training_list, alex_net)
   np.save('model.cnn', r)
 else:
-  print("load")
   r = np.load('model.cnn.npy')
 
 results = {}

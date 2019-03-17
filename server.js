@@ -39,6 +39,7 @@ app.post(
   (req, res) => {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, "./sample/video.mp4");
+    const database = JSON.parse(fs.readFileSync('db.json', 'utf8'));
 
     if (path.extname(req.file.originalname).toLowerCase() === ".mp4") {
       fs.rename(tempPath, targetPath, err => {
@@ -51,10 +52,13 @@ app.post(
           PythonShell.run('code.py', null, function (err,results) {
             if (err) throw err;
             console.log('results: %j', results);
+            const result = results && results.length > 0 && results[0];
+            const name = result.split('/')[1];
+            const row = database.find(field => field.name === name)
+            console.log(name, row)
             res
               .status(200)
-              .contentType("text/plain")
-              .end(results && results.length > 0 && results[0]);
+              .send(row)
           });
         });
       })
