@@ -4,7 +4,7 @@ import subprocess
 import glob
 import shutil
 
-training_path = 'training2'
+training_path = 'training'
 
 # delete training folder
 if os.path.exists(training_path) and os.path.isdir(training_path):
