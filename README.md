@@ -6,6 +6,7 @@ A tool to find videos from similar video clips
 
 1) Run `yarn install`
 2) Run `pip install -r requirements.txt`
+3) Create folder `tf_models`, and download the next models into it: http://www.cs.toronto.edu/~guerzhoy/tf_alexnet/bvlc_alexnet.npy and ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy
 
 ## Running
 
