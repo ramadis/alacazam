@@ -148,7 +148,7 @@ H,W,D = 227, 227, 3
 training_list = []
 training_list_names = []
 
-for filename in glob.glob('training/*.jpg'):
+for filename in sorted(glob.glob('training/*.jpg')):
   img = cv2.imread(os.path.join(filename))
   img = cv2.resize(img, (H, W), interpolation=cv2.INTER_LINEAR)
   training_list.append(img)
