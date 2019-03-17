@@ -23,3 +23,9 @@ Then, the endpoint `http://localhost:3000/upload` expects a MP3 video in a FormD
   "description": "Sprite: Love wins"
 }
 ```
+
+## Running on mobile
+
+1) Download Expo app.
+2) Open https://expo.io/@ramadis/abracadabra
+3) Send the sample videos to your cellphone and load them through the app
