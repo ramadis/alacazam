@@ -6,7 +6,7 @@ const path = require("path");
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const {PythonShell} = require('python-shell')
-
+const fetch = require('node-fetch');
 
 
 const handleError = (err, res) => {
@@ -49,17 +49,29 @@ app.post(
         PythonShell.run('take_sample.py', null, function (err) {
           if (err) throw err;
           console.log('finished');
-          PythonShell.run('code.py', null, function (err,results) {
-            if (err) throw err;
-            console.log('results: %j', results);
-            const result = results && results.length > 0 && results[0];
-            const name = result.split('/')[1];
-            const row = database.find(field => field.name === name)
-            console.log(name, row)
-            res
-              .status(200)
-              .send(row)
-          });
+          fetch('http://localhost:5000').then((resp) => {
+            if (resp.ok) {
+              resp.text().then(result => {
+              const name = result.split('/')[1];
+              const row = database.find(field => field.name === name)
+              console.log(name, row)
+              res
+                .status(200)
+                .send(row)
+              })
+            }
+          })
+          // PythonShell.run('code.py', null, function (err,results) {
+          //   if (err) throw err;
+          //   console.log('results: %j', results);
+          //   const result = results && results.length > 0 && results[0];
+          //   const name = result.split('/')[1];
+          //   const row = database.find(field => field.name === name)
+          //   console.log(name, row)
+          //   res
+          //     .status(200)
+          //     .send(row)
+          // });
         });
       })
     }

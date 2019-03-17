@@ -166,23 +166,30 @@ if not os.path.exists('model.cnn.npy'):
 else:
   r = np.load('model.cnn.npy')
 
-results = {}
-for filename in sorted(glob.glob('testing/*.jpg')):
-  img = cv2.imread(os.path.join(filename))
-  img = cv2.resize(img, (H, W), interpolation=cv2.INTER_LINEAR)
-  solution = run([img], alex_net)
-  closestIdx = spatial.cKDTree(r).query(solution[0], k=1)[1]
-  name = training_list_names[closestIdx].split('-')[0]
-  if name in results:
-    results[name] += 1
-  else:
-    results[name] = 1
 
-result_max = 0
-result_max_name = ""
-for key in results.keys():
-  if results[key] > result_max:
-    result_max = results[key]
-    result_max_name = key
 
-print(result_max_name)
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+  results = {}
+  for filename in sorted(glob.glob('testing/*.jpg')):
+    img = cv2.imread(os.path.join(filename))
+    img = cv2.resize(img, (H, W), interpolation=cv2.INTER_LINEAR)
+    solution = run([img], alex_net)
+    closestIdx = spatial.cKDTree(r).query(solution[0], k=1)[1]
+    name = training_list_names[closestIdx].split('-')[0]
+    if name in results:
+      results[name] += 1
+    else:
+      results[name] = 1
+
+  result_max = 0
+  result_max_name = ""
+  for key in results.keys():
+    if results[key] > result_max:
+      result_max = results[key]
+      result_max_name = key
+
+  return result_max_name

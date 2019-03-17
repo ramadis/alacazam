@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "multer": "^1.4.1",
+    "node-fetch": "^2.3.0",
     "python-shell": "^1.0.7"
   }
 }
