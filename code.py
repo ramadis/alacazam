@@ -17,13 +17,10 @@ alex_net = np.load(alex_net_path, encoding='latin1').item()
 
 vgg_net_path = os.path.join("tf_models/vgg16.npy")
 vgg_net = np.load(vgg_net_path, encoding='latin1').item()
-print(alex_net.keys())
-print(vgg_net.keys())
 
 a_c1 = alex_net['conv1']
 w1 = a_c1[0]
 b1 = a_c1[1]
-print(w1.shape)
 
 #Needed for creating feature descriptors
 def max_pool(input_x, kernel_size, stride, padding='VALID'):
@@ -41,11 +38,9 @@ def conv_2d(input_x, weights, stride, bias=None, padding='VALID'):
 
 
 def imgread(path):
-  print("Image:", path.split("/")[-1])
   # Read in the image using python opencv
   img = cv2.imread(path)
   img = img / 255.0
-  print("Raw Image Shape: ", img.shape)
   
   # Center crop the image
   short_edge = min(img.shape[:2])
@@ -54,11 +49,9 @@ def imgread(path):
   cent_w = int((img.shape[1] - short_edge) / 2)
   cent_h = int((img.shape[0] - short_edge) / 2)
   img_cropped = img[cent_h:cent_h+to_crop, cent_w:cent_w+to_crop]
-  print("Cropped Image Shape: ", img_cropped.shape)
   
   # Resize the cropped image to 224 by 224 for VGG16 network
   img_resized = cv2.resize(img_cropped, (224, 224), interpolation=cv2.INTER_LINEAR)
-  print("Resized Image Shape: ", img_resized.shape)
   return img_resized
 
 
@@ -167,15 +160,23 @@ def run(images,alex_net):
 
 r = run(training_list, alex_net)
 
+results = {}
 for filename in sorted(glob.glob('testing/*.jpg')):
   img = cv2.imread(os.path.join(filename))
   img = cv2.resize(img, (H, W), interpolation=cv2.INTER_LINEAR)
   solution = run([img], alex_net)
   closestIdx = spatial.cKDTree(r).query(solution[0], k=1)[1]
-  print(closestIdx)
-  print(training_list_names[closestIdx])
+  name = training_list_names[closestIdx].split('-')[0]
+  if name in results:
+    results[name] += 1
+  else:
+    results[name] = 1
 
-# solution = run([i1], alex_net)
-# closestIdx = spatial.cKDTree(r).query(solution[0], k=1)[1]
+result_max = 0
+result_max_name = ""
+for key in results.keys():
+  if results[key] > result_max:
+    result_max = results[key]
+    result_max_name = key
 
-# print(closestIdx)
+print(result_max_name)
