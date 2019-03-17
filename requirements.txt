@@ -1,0 +1,7 @@
+opencv-python
+numpy
+scenedetect
+h5py
+tensorflow
+numpy
+sklearn
