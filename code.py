@@ -4,6 +4,7 @@ import tensorflow as tf
 from collections import defaultdict
 from scipy import misc
 from scipy import spatial
+from tempfile import TemporaryFile
 
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import imshow
@@ -158,7 +159,14 @@ def run(images,alex_net):
 
   return np.concatenate((m1,m2,m3,m4,m5), axis=1)
 
-r = run(training_list, alex_net)
+r = None
+if not os.path.exists('model.cnn.npy'):
+  print("save")
+  r = run(training_list, alex_net)
+  np.save('model.cnn', r)
+else:
+  print("load")
+  r = np.load('model.cnn.npy')
 
 results = {}
 for filename in sorted(glob.glob('testing/*.jpg')):
