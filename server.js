@@ -37,6 +37,7 @@ app.post(
   "/upload",
   upload.single("video" /* name attribute of <file> element in your form */),
   (req, res) => {
+    console.log('ENTRA', req.file, req.video)
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, "./sample/video.mp4");
     const database = JSON.parse(fs.readFileSync('db.json', 'utf8'));
