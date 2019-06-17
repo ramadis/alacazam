@@ -1,6 +1,6 @@
 ## Alacazam
 
-A tool to find videos from similar video clips
+A tool to find videos from similar video clips, using [CNNs](https://en.wikipedia.org/wiki/Convolutional_neural_network), [OpenCV](https://opencv.org/), and [k-d trees](https://en.wikipedia.org/wiki/K-d_tree). This project was developed in ~9 hours for 2019 Facebook Hackathon in Buenos Aires, Argentina.
 
 ## Set up
 
